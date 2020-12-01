@@ -67,6 +67,21 @@ handleAddLoanOnClick = () => {
 }
 
 
+handleDeleteOnClick = (targetID) => {
+ let arr = [...this.state.loanList].filter((item) => {
+  return  targetID !== item.id
+
+ })
+
+this.setState({
+  loanList: arr
+})
+ 
+
+
+}
+
+
   render() {
     const {loanList, debtor, loanTypeInput, loanAmount} = this.state
     return (
@@ -89,8 +104,13 @@ handleAddLoanOnClick = () => {
                   
 
                  >Pay</span>
-                <span className='span-class interest' >Interest</span>
-                <span className="span-class delete" >Delete</span>
+                <span className='span-class interest' 
+                
+                >Interest</span>
+
+                <span className="span-class delete"
+                  onClick={() => this.handleDeleteOnClick(id)}
+                >Delete</span>
                 
                 <div> {name} </div>
                 <div> {loanType} </div>
