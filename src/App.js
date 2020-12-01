@@ -115,6 +115,8 @@ handlePayOnChange = (event) => {
   this.setState({
     [event.target.name]: event.target.value
   })
+  
+
 
   
 
@@ -123,9 +125,21 @@ handlePayOnChange = (event) => {
 
 transact = (targetID) => {
 
+  console.log(targetID);
 
-  let arr = [...this.state.loanAmount]
+  let arr = [...this.state.loanList].map((item) => {
+   if(targetID === item.id){
+     item.amount = (Number(item.amount) - Number(this.state.pay)).toString()
+    
+     return item
+   }else return item
+    
+  })
 
+  this.setState({
+    loanList: arr,
+    pay : ''
+  })
 
 }
 
@@ -139,7 +153,7 @@ transact = (targetID) => {
 
         <input onChange={(event) => this.handleDebtorOnChange(event)} type="text" placeholder="Name" name="debtor" value={debtor} />
         <input onChange={(event) => this.handleLoanTypeInputOnChange(event)} type="text" placeholder="Loan Type" name="loanTypeInput" value={loanTypeInput}/>
-        <input onChange={(event) => this.handleLoanAmountOnChange(event)} type="text" placeholder="Value" name="loanAmount" value={Number(loanAmount)} />
+        <input onChange={(event) => this.handleLoanAmountOnChange(event)} type="text" placeholder="Value" name="loanAmount" value={loanAmount} />
         
         <span className='span-class add-loan' onClick={this.handleAddLoanOnClick}
           
@@ -155,7 +169,7 @@ transact = (targetID) => {
                   onClick={() => this.handlePayOnClick(id)}
                  >Pay</span>}
 
-                 {payToggle ? <span className='span-class pay' onClick={(id) => this.transact(id)} >Transact</span> : null}
+                 {payToggle ? <span className='span-class pay' onClick={() => this.transact(id)} >Transact</span> : null}
                 
 
                 <span className='span-class interest' 
