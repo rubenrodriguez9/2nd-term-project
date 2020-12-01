@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import "./Span.css"
 
+
 class App extends Component {
 
 
@@ -12,19 +13,22 @@ state = {
       loanType: "Car",
       amount: 8000,
       name: "Ruben Rodriguez",
-      payToggle: false
+      payToggle: false,
+      interestToggle: false
     },
     { id: uuidv4(),
       loanType: "Home",
       amount: 150000,
       name: "Kilo Ren",
-      payToggle: false
+      payToggle: false,
+      interestToggle: false
     },
     { id: uuidv4(),
       loanType: "Personal",
       amount: 2500,
       name: "Elzhi",
-      payToggle: false
+      payToggle: false,
+      interestToggle: false
     },
   ],
   debtor: "",
@@ -32,7 +36,8 @@ state = {
   loanAmount: "",
   pay: '',
   errorToggle: false,
-  errorMessage: ''
+  errorMessage: '',
+  interestAmount: "0"
   
 
 
@@ -110,17 +115,10 @@ handlePayOnClick =  (targetID) => {
   
 }
 handlePayOnChange = (event) => {
-
-
   this.setState({
     [event.target.name]: event.target.value
   })
-  
 
-
-  
-
-  
 }
 
 transact = (targetID) => {
@@ -143,6 +141,50 @@ transact = (targetID) => {
 
 }
 
+handleInterestOnClick = (targetID) => {
+  let arr = [...this.state.loanList].map((item) => {
+    if(targetID === item.id){
+      item.interestToggle = true
+    }
+    return item
+  })
+
+  this.setState({
+    loanList: arr
+  })
+}
+handleInterestOnChange = (event) => {
+  this.setState({
+    [event.target.name]: event.target.value
+  }, () => console.log(this.state.interestAmount)
+  
+  )
+
+  
+
+
+}
+
+addInterest = (targetID) => {
+  let arr = [...this.state.loanList].map((item) => {
+    if(targetID === item.id){
+      
+      let principle = Number(item.amount)
+      let rate = Number(this.state.interestAmount) / 100
+      let time = 1
+
+      let calculatedInterestPlusPrinciple = principle * (1 + (rate * time))
+      item.amount = calculatedInterestPlusPrinciple
+
+      console.log(item)
+    }
+    return item
+  })
+
+  this.setState({
+    loanList: arr
+  })
+}
 
 
 
@@ -158,12 +200,12 @@ transact = (targetID) => {
         <span className='span-class add-loan' onClick={this.handleAddLoanOnClick}
           
         >Add Loan</span>
-        <ul>
+        <ul style={{listStyleType: "none"}}  >
 
 
 
-            {loanList.map(({id, loanType, amount,  name, payToggle}) => {
-              return <li key={id}   >
+            {loanList.map(({id, loanType, amount,  name, payToggle, interestToggle}) => {
+              return <li key={id}  >
 
                 {payToggle ? <input type="text" name='pay' value={this.state.pay} placeholder="Pay Value" onChange={(event) => this.handlePayOnChange(event)}  /> : <span className='span-class pay'
                   onClick={() => this.handlePayOnClick(id)}
@@ -172,8 +214,10 @@ transact = (targetID) => {
                  {payToggle ? <span className='span-class pay' onClick={() => this.transact(id)} >Transact</span> : null}
                 
 
-                <span className='span-class interest' 
-                >Interest</span>
+                {interestToggle ? <input onChange={(event) =>this.handleInterestOnChange(event)} placeholder="Enter annual APR" type="text" name="interestAmount" value={this.state.interestAmount} /> : <span className='span-class interest' onClick={() => this.handleInterestOnClick(id)} 
+                >Interest</span>}
+
+                {interestToggle ? <span  className='span-class interest' onClick={() => this.addInterest(id)} >Add Interest</span> : null}
 
                 <span className="span-class delete"
                   onClick={() => this.handleDeleteOnClick(id)}
