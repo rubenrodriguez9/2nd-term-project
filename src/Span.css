@@ -1,0 +1,34 @@
+.span-class{
+   
+    margin-left: 10px;
+    list-style-type: none;
+    padding: 3px;
+    font-weight: bold;
+}
+
+.pay{
+    background-color: lightgreen;
+    border-radius: 3px;
+}
+
+.interest{
+    background-color: lightblue;
+    border-radius: 3px;
+}
+
+.table{
+    border: 1px solid black;
+    background-color: lightgray;
+    display: inline;
+    margin-left: 10px;
+}
+
+.delete{
+    background-color: red;
+    border-radius: 3px; 
+}
+
+.add-loan{
+    background-color: rgb(61, 161, 219);
+    border-radius: 3px; 
+}
