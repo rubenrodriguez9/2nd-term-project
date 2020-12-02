@@ -2,6 +2,7 @@ import './App.css';
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import "./Span.css"
+import Span from './components/span/Span';
 
 
 class App extends Component {
@@ -128,6 +129,7 @@ transact = (targetID) => {
   let arr = [...this.state.loanList].map((item) => {
    if(targetID === item.id){
      item.amount = (Number(item.amount) - Number(this.state.pay)).toString()
+     item.payToggle = false
     
      return item
    }else return item
@@ -182,7 +184,8 @@ addInterest = (targetID) => {
   })
 
   this.setState({
-    loanList: arr
+    loanList: arr,
+    interestAmount:""
   })
 }
 
@@ -206,28 +209,43 @@ addInterest = (targetID) => {
 
             {loanList.map(({id, loanType, amount,  name, payToggle, interestToggle}) => {
               return <li key={id}  >
-
-                {payToggle ? <input type="text" name='pay' value={this.state.pay} placeholder="Pay Value" onChange={(event) => this.handlePayOnChange(event)}  /> : <span className='span-class pay'
-                  onClick={() => this.handlePayOnClick(id)}
-                 >Pay</span>}
-
-                 {payToggle ? <span className='span-class pay' onClick={() => this.transact(id)} >Transact</span> : null}
                 
+                {/* turns pay span to an input to enter a pay value  */}
+                {payToggle ?
+                 <input type="text" name='pay' value={this.state.pay} placeholder="Pay Value" onChange={(event) => this.handlePayOnChange(event)}  
+                  /> : 
+                  <Span className="span-class pay" onClick={() => this.handlePayOnClick(id)} value="Pay"/>}
 
-                {interestToggle ? <input onChange={(event) =>this.handleInterestOnChange(event)} placeholder="Enter annual APR" type="text" name="interestAmount" value={this.state.interestAmount} /> : <span className='span-class interest' onClick={() => this.handleInterestOnClick(id)} 
-                >Interest</span>}
+                {/* creates a Transact button when pay is clicked */}
+                {payToggle ? <Span className="span-class pay" onClick={() => this.transact(id)} value="Transact" 
+                  /> : null}
 
-                {interestToggle ? <span  className='span-class interest' onClick={() => this.addInterest(id)} >Add Interest</span> : null}
+                {/* creates an input to place an interest value*/}
+                {interestToggle ? 
+                <input onChange={(event) =>this.handleInterestOnChange(event)} placeholder="Enter annual APR" type="text" name="interestAmount" 
+                value={this.state.interestAmount} 
+                /> : 
+                <Span className='span-class interest' onClick={() => this.handleInterestOnClick(id)} value="Interest" />}
 
-                <span className="span-class delete"
+                {/* creates a span to add interest  */}
+                {interestToggle ?  <Span
+                  className={'span-class interest' }
+                  onClick={() => this.addInterest(id)}
+                  value="Add Interest"
+                  /> :  null}
+
+                  
+                <Span 
+                  value="Delete"
+                  className="span-class delete"
                   onClick={() => this.handleDeleteOnClick(id)}
-                >Delete</span>
+                />
                 
                 <div> {name} </div>
                 <div> {loanType} </div>
                 <div> $ {amount} </div>
                 <br/>
-                <br/>
+               
 
                
               </li>
