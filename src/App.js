@@ -2,9 +2,9 @@ import './App.css';
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import "./Span.css"
-import Span from './components/span/Span';
 
 
+import LoanListView from "./components/loanList/LoanListView"
 class App extends Component {
 
 
@@ -101,49 +101,43 @@ handlePayOnClick =  (targetID) => {
   let arr = [...this.state.loanList]
   let newArr = arr.map((item) => {
     if(targetID === item.id){
-      item.payToggle = true
+      item.payToggle = true 
     }
    return item
-   
   })
-
   this.setState({
     loanList: newArr
   })
-  
- 
-  
-  
 }
 handlePayOnChange = (event) => {
   this.setState({
     [event.target.name]: event.target.value
   })
 
+
 }
 
 transact = (targetID) => {
 
-  console.log(targetID);
+  
 
   let arr = [...this.state.loanList].map((item) => {
    if(targetID === item.id){
      item.amount = (Number(item.amount) - Number(this.state.pay)).toString()
      item.payToggle = false
     
-     return item
-   }else return item
+   }
+   return item
     
   })
-
   this.setState({
     loanList: arr,
     pay : ''
   })
-
 }
 
 handleInterestOnClick = (targetID) => {
+  console.log('hello');
   let arr = [...this.state.loanList].map((item) => {
     if(targetID === item.id){
       item.interestToggle = true
@@ -177,8 +171,8 @@ addInterest = (targetID) => {
 
       let calculatedInterestPlusPrinciple = principle * (1 + (rate * time))
       item.amount = calculatedInterestPlusPrinciple
+      item.interestToggle = false
 
-      console.log(item)
     }
     return item
   })
@@ -192,7 +186,7 @@ addInterest = (targetID) => {
 
 
   render() {
-    const {loanList, debtor, loanTypeInput, loanAmount} = this.state
+    const { debtor, loanTypeInput, loanAmount} = this.state
     return (
       <div style={{textAlign: "center", listStyle: "none"}} >
 
@@ -203,55 +197,20 @@ addInterest = (targetID) => {
         <span className='span-class add-loan' onClick={this.handleAddLoanOnClick}
           
         >Add Loan</span>
-        <ul style={{listStyleType: "none"}}  >
+        
+        <LoanListView
+        loanList={this.state.loanList}
+        handlePayOnChange={this.handlePayOnChange}
+        handlePayOnClick={this.handlePayOnClick}
+        pay={this.pay}
+        transact={this.transact}
+        handleInterestOnClick={this.handleInterestOnClick}
+        interestAmount={this.state.interestAmount}
+        handleInterestOnChange={this.handleInterestOnChange}
+        addInterest={this.addInterest}
+        
+        />
 
-
-
-            {loanList.map(({id, loanType, amount,  name, payToggle, interestToggle}) => {
-              return <li key={id}  >
-                
-                {/* turns pay span to an input to enter a pay value  */}
-                {payToggle ?
-                 <input type="text" name='pay' value={this.state.pay} placeholder="Pay Value" onChange={(event) => this.handlePayOnChange(event)}  
-                  /> : 
-                  <Span className="span-class pay" onClick={() => this.handlePayOnClick(id)} value="Pay"/>}
-
-                {/* creates a Transact button when pay is clicked */}
-                {payToggle ? <Span className="span-class pay" onClick={() => this.transact(id)} value="Transact" 
-                  /> : null}
-
-                {/* creates an input to place an interest value*/}
-                {interestToggle ? 
-                <input onChange={(event) =>this.handleInterestOnChange(event)} placeholder="Enter annual APR" type="text" name="interestAmount" 
-                value={this.state.interestAmount} 
-                /> : 
-                <Span className='span-class interest' onClick={() => this.handleInterestOnClick(id)} value="Interest" />}
-
-                {/* creates a span to add interest  */}
-                {interestToggle ?  <Span
-                  className={'span-class interest' }
-                  onClick={() => this.addInterest(id)}
-                  value="Add Interest"
-                  /> :  null}
-
-                  
-                <Span 
-                  value="Delete"
-                  className="span-class delete"
-                  onClick={() => this.handleDeleteOnClick(id)}
-                />
-                
-                <div> {name} </div>
-                <div> {loanType} </div>
-                <div> $ {amount} </div>
-                <br/>
-               
-
-               
-              </li>
-            })}
-          
-        </ul>
         
       </div>
     );
