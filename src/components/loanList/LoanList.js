@@ -13,21 +13,21 @@ state = {
     { id: uuidv4(),
       loanType: "Car",
       amount: 8000,
-      name: "Ruben Rodriguez",
+      name: "Ron",
       payToggle: false,
       interestToggle: false
     },
     { id: uuidv4(),
       loanType: "Home",
       amount: 150000,
-      name: "Kilo Ren",
+      name: "Barry",
       payToggle: false,
       interestToggle: false
     },
     { id: uuidv4(),
       loanType: "Personal",
       amount: 2500,
-      name: "Elzhi",
+      name: "Jeff",
       payToggle: false,
       interestToggle: false
     },
@@ -137,7 +137,6 @@ transact = (targetID) => {
 }
 
 handleInterestOnClick = (targetID) => {
-  console.log('hello');
   let arr = [...this.state.loanList].map((item) => {
     if(targetID === item.id){
       item.interestToggle = true
@@ -149,6 +148,7 @@ handleInterestOnClick = (targetID) => {
     loanList: arr
   })
 }
+
 handleInterestOnChange = (event) => {
   this.setState({
     [event.target.name]: event.target.value
@@ -208,6 +208,7 @@ addInterest = (targetID) => {
         interestAmount={this.state.interestAmount}
         handleInterestOnChange={this.handleInterestOnChange}
         addInterest={this.addInterest}
+        handleDeleteOnClick={this.handleDeleteOnClick}
         
         />
 

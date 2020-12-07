@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import validator from "validator"
 import axios from "axios"
 
+import jwtDecode from "jwt-decode"
+
 import LoanList from "../loanList/LoanList"
 
 export class Signup extends Component {
@@ -97,7 +99,22 @@ export class Signup extends Component {
 
 
   }
+  componentDidMount ()  {
 
+    let token = localStorage.getItem('jwtToken')
+
+    if(token){
+
+        let decoded = jwtDecode(token)
+
+        let currentTime = Date.now() / 1000
+
+        if(decoded.exp < currentTime){
+            localStorage.removeItem("jwtToken")
+        } else this.props.history.push("/loan-list")
+    }
+
+}
   render() {
     
     const {isAuth, emailSubmitError, emailSubmitErrorMessage, passwordError, passwordErrorMessage} = this.state

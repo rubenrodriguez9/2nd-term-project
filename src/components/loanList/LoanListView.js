@@ -1,7 +1,7 @@
 import React from 'react'
 import Span from '../span/Span';
 
- const LoanListView = ({loanList, handlePayOnChange, handlePayOnClick, pay, transact, handleInterestOnClick, addInterest, interestAmount, handleInterestOnChange}) => {
+ const LoanListView = ({loanList, handlePayOnChange, handlePayOnClick, pay, transact, handleInterestOnClick, handleDeleteOnClick , addInterest, interestAmount, handleInterestOnChange}) => {
 
    const loanListHandlePayOnClick = (id) => {
     handlePayOnClick(id)
@@ -30,6 +30,10 @@ import Span from '../span/Span';
 
   }
 
+  const loanListHandleDeleteOnClick = (id) => {
+    handleDeleteOnClick(id)
+  }
+  
      return (
         <ul style={{listStyleType: "none"}}  >
 
@@ -66,7 +70,7 @@ import Span from '../span/Span';
                 <Span 
                   value="Delete"
                   className="span-class delete"
-                  onClick={() => this.handleDeleteOnClick(id)}
+                  onClick={() => loanListHandleDeleteOnClick(id)}
                 />
                 
                 <div> {name} </div>

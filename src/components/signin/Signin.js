@@ -17,8 +17,9 @@ import jwt_decode from "jwt-decode";
     
       componentDidMount () {
           let token = localStorage.getItem("jwtToken")
+            if(token){
 
-          let decoded = jwt_decode(token)
+                let decoded = jwt_decode(token)
 
           this.setState({
               user: {
@@ -28,6 +29,9 @@ import jwt_decode from "jwt-decode";
           }, () => {
             this.props.history.push("/loan-list");
           })
+
+            }
+          
 
           
       }
@@ -86,7 +90,11 @@ import jwt_decode from "jwt-decode";
                 emailSubmitErrorMessage: false,
                 isAuth: true
 
-            },  () => {this.props.history.push('/loan-list')})
+            }, 
+            
+            () => {
+                this.props.isAuth(success.data.jwtToken)
+                this.props.history.push('/loan-list')})
       
           }
           catch (e) {
