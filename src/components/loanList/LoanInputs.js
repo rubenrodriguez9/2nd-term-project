@@ -1,8 +1,7 @@
 import React, {useState, useEffect } from "react"
 import axios from 'axios'
 import {v4 as uuidv4} from "uuid"
-
-
+import jwt_decode from "jwt-decode";
  
 
 
@@ -13,7 +12,7 @@ const LoanInputs = () => {
 
 
   let token = localStorage.getItem("jwtToken")
-
+  let decoded = jwt_decode(token)
   
   const [debt, setDebt] = useState("")
   const [name, setName] = useState("")
@@ -23,9 +22,8 @@ const LoanInputs = () => {
   
 
   const [loans, setLoans] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
 
-  console.log(loans);
+  console.log(decoded);
 
   
 
@@ -61,25 +59,21 @@ const LoanInputs = () => {
 
     try{
        
-      setIsLoading(true)
-
       let  success = await axios.get("http://localhost:3001/api/loans/get-loans", {
         params: {
          user: token
         }
         })
 
-        console.log(success);
            setLoans(success.data)
        
-        setIsLoading(false)
+        
 
         
 
 
       } catch(e){
         console.log(e);
-        setIsLoading(false)
 
       }
 
@@ -90,8 +84,11 @@ const LoanInputs = () => {
 
   }
 
-  function loadList() {
-    return (
+
+  return (
+    <div style={{textAlign: "center"}} >
+      <button onClick={() => showLoans()}>Show Outstanding Loans</button>
+
       <ul>  
    
       {  loans.map((item) => {
@@ -102,17 +99,6 @@ const LoanInputs = () => {
           )
         })}
       </ul>
-    )
-  }
-
-
-  return (
-    <div style={{textAlign: "center"}} >
-      <button onClick={() => showLoans()}>Show Outstanding Loans</button>
-
-      {
-       isLoading ? <h1>...Loading</h1> :loadList()
-      }
       <br/>
 
     <input placeholder="Debtor" type="text"  value={name} onChange={(e) => setName(e.target.value)} ></input>
