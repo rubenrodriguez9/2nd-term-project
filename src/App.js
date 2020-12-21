@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Signup from "./components/signup/Signup"
 import Home from './components/home/Home'
 import Signin from './components/signin/Signin'
-import LoanList from './components/loanList/LoanList'
+import LoanList from './components/loanList/LoanInputs'
 import Nav from './components/Nav/Nav'
 import jwtDecode from 'jwt-decode';
 

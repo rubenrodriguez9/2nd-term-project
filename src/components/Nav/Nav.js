@@ -32,11 +32,12 @@ componentDidMount ()  {
           email: decoded.email,
           _id: decoded._id
       }
-        }, () => console.log(this.state))
+        })
     }
 }
 
 componentDidUpdate (prevState, prevProps) {
+    console.log();
     // if(this.props.user !== prevState.user){
     //     this.setState({
     //         isAuth: this.props.isAuth,

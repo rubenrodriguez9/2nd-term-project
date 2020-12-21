@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import LoanList from "../loanList/LoanList"
+import LoanList from "../loanList/LoanInputs"
 import validator from 'validator'
 import axios from 'axios'
 import jwt_decode from "jwt-decode";

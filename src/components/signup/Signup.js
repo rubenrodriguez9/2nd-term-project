@@ -4,7 +4,7 @@ import axios from "axios"
 
 import jwtDecode from "jwt-decode"
 
-import LoanList from "../loanList/LoanList"
+import LoanList from "../loanList/LoanInputs"
 
 export class Signup extends Component {
 
