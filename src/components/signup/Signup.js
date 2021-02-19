@@ -82,7 +82,7 @@ export class Signup extends Component {
 
     try{
 
-      let success = await axios.post("http://localhost:3001/api/users/create-user", {
+      let success = await axios.post("/api/users/create-user", {
         email: this.state.email,
         password: this.state.password
 

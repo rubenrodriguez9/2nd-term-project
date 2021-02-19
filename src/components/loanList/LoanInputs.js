@@ -34,7 +34,7 @@ const LoanInputs = () => {
     
       try{
        
-      let  success = await axios.post("http://localhost:3001/api/loans/create-loan", {
+      let  success = await axios.post("/api/loans/create-loan", {
               
                 debt:debt,
                 name:name,
@@ -59,7 +59,7 @@ const LoanInputs = () => {
 
     try{
        
-      let  success = await axios.get("http://localhost:3001/api/loans/get-loans", {
+      let  success = await axios.get("/api/loans/get-loans", {
         params: {
          user: token
         }
